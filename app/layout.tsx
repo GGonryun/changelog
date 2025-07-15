@@ -5,7 +5,7 @@ import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: 'Changelog',
-  description: 'Build powerful interactive bots with ease'
+  description: 'Automatically generated changelog for your project'
 };
 
 export default async function RootLayout({
