@@ -1,3 +1,4 @@
+import { numbers } from './numbers';
 import { text } from './text';
 
 const MILLISECOND = 1;
@@ -58,9 +59,28 @@ export namespace duration {
 
 export namespace dates {
   export const printMonth = (date: Date = new Date()) => {
-    const monthName = new Intl.DateTimeFormat('en-US', { month: 'long' }).format(
-      date
-    );
+    const monthName = new Intl.DateTimeFormat('en-US', {
+      month: 'long'
+    }).format(date);
     return text.uppercaseFirstLetter(monthName);
+  };
+
+  type DateLike = string | number | Date;
+  export const toDate = (date: DateLike): Date => {
+    if (typeof date === 'number') {
+      return new Date(date);
+    } else if (typeof date === 'string') {
+      return new Date(Date.parse(date));
+    }
+    return date;
+  };
+  // print the year in format: August 13th, 2025
+  export const pretty = (value: DateLike): string => {
+    const date = toDate(value);
+
+    const day = date.getDate();
+    const month = printMonth(date);
+    const year = date.getFullYear();
+    return `${month} ${day}${numbers.getOrdinalSuffix(day)}, ${year}`;
   };
 }

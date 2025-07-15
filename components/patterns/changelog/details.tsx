@@ -5,8 +5,9 @@ import ReactMarkdown from 'react-markdown';
 import { ChangelogEntrySchema } from '@/schemas/changelog';
 import { Box } from '@/components/ui/box';
 import { Typography } from '@/components/ui/typography';
+import { Authors } from '../authors';
 
-export const Changelog = () => {
+export const ChangelogDetails = () => {
   const [changelogs, setChangelogs] = useState<ChangelogEntrySchema[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -38,18 +39,14 @@ export const Changelog = () => {
   }, [hasMore]);
 
   return (
-    <main className="max-w-2xl mx-auto px-4 py-8">
-      <Box mb="xl">
-        <Typography.H1 className="mb-6">📝 Changelog</Typography.H1>
-      </Box>
+    <main>
       {changelogs.map((log) => (
         <article key={log.slug} className="mb-8 border-b pb-4">
-          <Typography.H2 className="text-xl font-semibold">
-            {log.title}
-          </Typography.H2>
+          <Typography.H2>{log.title}</Typography.H2>
           <Typography.Paragraph className="text-sm text-gray-500">
             {log.date}
           </Typography.Paragraph>
+          <Authors ids={log.authors} />
           <Box className="prose mt-2">
             <ReactMarkdown>{log.content}</ReactMarkdown>
           </Box>

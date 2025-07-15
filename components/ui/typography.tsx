@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { text } from '../foundations/text';
 import { JSX } from 'react';
 
-const typographyVariants = cva('', {
+const typographyVariants = cva('font-open-sans', {
   variants: text,
   defaultVariants: {
     size: 'sm',
@@ -19,19 +19,27 @@ const codeVariants = cva('bg-gray-100 border rounded-sm px-1 py-0.5', {
   }
 });
 
-const h1Variants = cva('', {
+const h1Variants = cva('font-playfair', {
   variants: text,
   defaultVariants: {
     size: 'xxxl',
-    weight: 'bold'
+    weight: 'normal'
   }
 });
 
-const h2Variants = cva('', {
+const h2Variants = cva('font-playfair', {
   variants: text,
   defaultVariants: {
     size: 'xxl',
-    weight: 'bold'
+    weight: 'normal'
+  }
+});
+
+const captionVariants = cva('text-xs font-normal text-muted-foreground', {
+  variants: text,
+  defaultVariants: {
+    size: 'xs',
+    weight: 'normal'
   }
 });
 
@@ -44,6 +52,7 @@ type TypographyComponent = IntrinsicTypographyComponent<
   Paragraph: IntrinsicTypographyComponent<'p', typeof typographyVariants>;
   H1: IntrinsicTypographyComponent<'h1', typeof h1Variants>;
   H2: IntrinsicTypographyComponent<'h2', typeof h2Variants>;
+  Caption: IntrinsicTypographyComponent<'span', typeof typographyVariants>;
 };
 
 export const Typography: TypographyComponent = ({
@@ -100,17 +109,10 @@ type IntrinsicTypographyComponent<
 function IntrinsicElement<
   T extends Props<TVariants>,
   TVariants extends (...args: any) => any
->(
-  Component: TypographyElement,
-  variants: CVAOutput,
-  classNameOverrides?: string
-): React.FC<T> {
+>(Component: TypographyElement, variants: CVAOutput): React.FC<T> {
   return ({ className, children, ...props }: T) => {
     return (
-      <Component
-        className={cn(variants(props), classNameOverrides, className)}
-        {...props}
-      >
+      <Component className={cn(variants(props), className)} {...props}>
         {children}
       </Component>
     );
@@ -122,3 +124,4 @@ Typography.H2 = IntrinsicElement('h2', h2Variants);
 Typography.Paragraph = IntrinsicElement('p', typographyVariants);
 Typography.Code = IntrinsicElement('code', codeVariants);
 Typography.Text = IntrinsicElement('span', typographyVariants);
+Typography.Caption = IntrinsicElement('span', captionVariants);

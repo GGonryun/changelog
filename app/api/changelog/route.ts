@@ -2,7 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { NextRequest, NextResponse } from 'next/server';
-import { ChangelogEntrySchema } from '@/schemas/changelog';
+import {
+  changelogEntrySchema,
+  ChangelogEntrySchema
+} from '@/schemas/changelog';
 
 const PAGE_SIZE = 10;
 
@@ -23,12 +26,15 @@ export async function GET(req: NextRequest) {
     const filePath = path.join(contentDir, filename);
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const { data, content } = matter(fileContent);
-    return {
+    const log = {
       slug: filename.replace('.md', ''),
       title: data.title || 'Untitled',
       date: data.date || '',
-      content
+      content,
+      authors: data.authors ?? []
     };
+
+    return changelogEntrySchema.parse(log);
   });
 
   return NextResponse.json({

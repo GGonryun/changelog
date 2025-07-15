@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 type BoxProps = React.ComponentProps<'div'> &
   VariantProps<typeof boxVariants> & {
-    children: React.ReactNode;
+    children?: React.ReactNode;
   };
 
 interface BoxComponent extends React.FC<BoxProps> {}
@@ -64,6 +64,7 @@ const boxVariants = cva('', {
       xl: 'p-5'
     },
     w: {
+      1: 'w-1',
       8: 'w-8'
     }
   }

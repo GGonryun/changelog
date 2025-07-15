@@ -111,6 +111,10 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         progress: 'progress 1s infinite ease-in-out'
+      },
+      fontFamily: {
+        'open-sans': ['var(--font-open-sans)'],
+        playfair: ['var(--font-playfair)']
       }
     }
   },
