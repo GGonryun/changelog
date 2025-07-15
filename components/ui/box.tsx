@@ -47,7 +47,9 @@ const boxVariants = cva('', {
       sm: 'my-2',
       md: 'my-3',
       lg: 'my-4',
-      xl: 'my-5'
+      xl: 'my-5',
+      xxl: 'my-7',
+      xxxl: 'my-9'
     },
     px: {
       xs: 'px-1',
@@ -65,7 +67,8 @@ const boxVariants = cva('', {
     },
     w: {
       1: 'w-1',
-      8: 'w-8'
+      8: 'w-8',
+      full: 'w-full'
     }
   }
 });

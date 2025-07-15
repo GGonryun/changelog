@@ -57,6 +57,8 @@ export namespace duration {
   export type Duration = NewDuration;
 }
 
+type DateLike = string | number | Date;
+
 export namespace dates {
   export const printMonth = (date: Date = new Date()) => {
     const monthName = new Intl.DateTimeFormat('en-US', {
@@ -65,7 +67,6 @@ export namespace dates {
     return text.uppercaseFirstLetter(monthName);
   };
 
-  type DateLike = string | number | Date;
   export const toDate = (date: DateLike): Date => {
     if (typeof date === 'number') {
       return new Date(date);

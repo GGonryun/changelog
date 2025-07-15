@@ -5,7 +5,8 @@ export const changelogEntrySchema = z.object({
   title: z.string(),
   date: z.string(),
   content: z.string(),
-  authors: z.array(z.string())
+  authors: z.array(z.string()),
+  media: z.string().optional()
 });
 
 export type ChangelogEntrySchema = z.infer<typeof changelogEntrySchema>;

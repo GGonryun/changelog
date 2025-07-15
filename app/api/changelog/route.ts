@@ -31,7 +31,8 @@ export async function GET(req: NextRequest) {
       title: data.title || 'Untitled',
       date: data.date || '',
       content,
-      authors: data.authors ?? []
+      authors: data.authors ?? [],
+      media: data.media
     };
 
     return changelogEntrySchema.parse(log);

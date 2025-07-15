@@ -19,6 +19,9 @@ const flex = {
   center: {
     true: 'items-center justify-center'
   },
+  justify: {
+    between: 'justify-between'
+  },
   items: {
     center: 'items-center'
   }
@@ -57,12 +60,17 @@ const Flex: FlexComponent = ({
   children,
   gap,
   full,
+  items,
+  justify,
   center,
   ...props
 }) => {
   return (
     <div
-      className={cn(flexVariants({ gap, full, center }), className)}
+      className={cn(
+        flexVariants({ gap, full, center, items, justify }),
+        className
+      )}
       {...props}
     >
       {children}
@@ -70,18 +78,44 @@ const Flex: FlexComponent = ({
   );
 };
 
-Flex.Stack = ({ className, children, gap, full, center, ...props }) => (
+Flex.Stack = ({
+  className,
+  children,
+  gap,
+  full,
+  center,
+  items,
+  justify,
+  ...props
+}) => (
   <div
-    className={cn(flexVariants({ gap, full, center }), 'flex-col', className)}
+    className={cn(
+      flexVariants({ gap, full, center, items, justify }),
+      'flex-col',
+      className
+    )}
     {...props}
   >
     {children}
   </div>
 );
 
-Flex.Grid = ({ className, children, gap, full, center, ...props }) => (
+Flex.Grid = ({
+  className,
+  children,
+  gap,
+  full,
+  center,
+  items,
+  justify,
+  ...props
+}) => (
   <div
-    className={cn('grid', gridVariants({ gap, full, center }), className)}
+    className={cn(
+      'grid',
+      gridVariants({ gap, full, center, items, justify }),
+      className
+    )}
     {...props}
   >
     {children}

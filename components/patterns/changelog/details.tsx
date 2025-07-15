@@ -6,6 +6,11 @@ import { ChangelogEntrySchema } from '@/schemas/changelog';
 import { Box } from '@/components/ui/box';
 import { Typography } from '@/components/ui/typography';
 import { Authors } from '../authors';
+import { Separator } from '@/components/ui/separator';
+import { SquareFunction } from 'lucide-react';
+import { Flex } from '@/components/ui/flex';
+import { dates } from '@/lib/time';
+import Image from 'next/image';
 
 export const ChangelogDetails = () => {
   const [changelogs, setChangelogs] = useState<ChangelogEntrySchema[]>([]);
@@ -41,15 +46,47 @@ export const ChangelogDetails = () => {
   return (
     <main>
       {changelogs.map((log) => (
-        <article key={log.slug} className="mb-8 border-b pb-4">
-          <Typography.H2>{log.title}</Typography.H2>
-          <Typography.Paragraph className="text-sm text-gray-500">
-            {log.date}
-          </Typography.Paragraph>
-          <Authors ids={log.authors} />
-          <Box className="prose mt-2">
-            <ReactMarkdown>{log.content}</ReactMarkdown>
+        <article
+          key={log.slug}
+          className="mb-8 border-b bg-stone-200 rounded-lg p-6"
+        >
+          <Flex items="center" justify="between">
+            <Flex gap="lg" items="center">
+              <div className="bg-stone-300/90 rounded-lg p-3 w-fit h-fit">
+                <SquareFunction size={32} />
+              </div>
+              <div>
+                <Typography.H2>{log.title}</Typography.H2>
+                <Typography.Paragraph
+                  className="text-sm text-gray-500"
+                  leading="none"
+                >
+                  {dates.pretty(log.date)}
+                </Typography.Paragraph>
+              </div>
+            </Flex>
+            <Authors ids={log.authors} />
+          </Flex>
+          <Box w="full" className="my-6">
+            <Separator className="bg-stone-300" />
           </Box>
+          <ReactMarkdown
+            components={{
+              p: (props) => <Typography.Paragraph {...(props as any)} />
+            }}
+          >
+            {log.content}
+          </ReactMarkdown>
+
+          {log.media && (
+            <Image
+              src={log.media}
+              alt="Changelog media"
+              height={540}
+              width={960}
+              className="rounded-lg mt-6"
+            />
+          )}
         </article>
       ))}
       {hasMore && <div ref={loaderRef} className="h-16" />}

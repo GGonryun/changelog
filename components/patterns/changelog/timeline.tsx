@@ -87,7 +87,7 @@ const TimelineItem: React.FC<{ item: TimelineEntrySchema }> = ({ item }) => {
           <div
             className={cn(
               'w-2 h-2 rounded-full',
-              isActive ? 'bg-stone-500' : 'bg-stone-300'
+              isActive ? 'bg-stone-600' : 'bg-stone-300'
             )}
           />
         </Box>
