@@ -1,5 +1,6 @@
 'use client';
 
+import { useSlugIntent } from '@/components/context/slug-intent-context';
 import { Box } from '@/components/ui/box';
 import { Flex } from '@/components/ui/flex';
 import {
@@ -13,10 +14,9 @@ import { Typography } from '@/components/ui/typography';
 import { dates } from '@/lib/time';
 import { cn } from '@/lib/utils';
 import { TimelineEntrySchema } from '@/schemas/changelog';
-import { CircleIcon, DotIcon } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 export const ChangelogTimeline = () => {
   const [timeline, setTimeline] = useState<TimelineEntrySchema[]>([]);
@@ -69,16 +69,35 @@ export const Timeline: React.FC<{ items: TimelineEntrySchema[] }> = ({
   );
 };
 
+function useDebouncedEffect(effect: () => void, deps: any[], delay: number) {
+  useEffect(() => {
+    const handler = setTimeout(effect, delay);
+    return () => clearTimeout(handler);
+  }, [...deps, delay]);
+}
 const TimelineItem: React.FC<{ item: TimelineEntrySchema }> = ({ item }) => {
   const searchParams = useSearchParams();
   const slug = searchParams.get('slug');
   const isActive = slug === item.slug;
 
+  const itemRef = useRef<HTMLAnchorElement>(null);
+
+  const { markIntentional } = useSlugIntent();
+
+  // Scroll into view when this item becomes active
+  useEffect(() => {
+    if (isActive && itemRef.current) {
+      itemRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [isActive]);
+
   return (
     <Link
+      ref={itemRef}
       href={`?slug=${item.slug}`}
+      onClick={markIntentional}
       className={cn(
-        'no-underline p-4 rounded-md',
+        'scroll-mt-4 no-underline p-4 rounded-md',
         isActive ? 'bg-stone-200' : ''
       )}
     >
