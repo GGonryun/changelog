@@ -121,6 +121,7 @@ const ChangelogItem: React.FC<{ log: ChangelogEntrySchema }> = ({ log }) => {
           alt="Changelog media"
           height={540}
           width={960}
+          unoptimized
           className="rounded-lg mt-6"
         />
       )}
